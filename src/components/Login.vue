@@ -16,7 +16,7 @@
         required
       ></v-text-field>
       <p class="create-acc-text">
-        Don't have an account?<a style="padding: 10px" href="/register"
+        Don't have an account?<a style="padding: 10px" @click="$router.push('/register')"
           >Create Account</a
         >
       </p>

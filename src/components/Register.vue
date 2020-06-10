@@ -29,7 +29,7 @@
         required
       ></v-text-field>
       <p class="login-text">
-        Have an account?<a style="padding: 10px" href="/login">Login</a>
+        Have an account?<a style="padding: 10px" @click="$router.push('/register')">Login</a>
       </p>
       <v-btn color="success" class="mr-4" @click="register">
         Register
