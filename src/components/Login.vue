@@ -1,38 +1,62 @@
 <template>
-  <div>
-    <form class="login" @submit.prevent="login">
+  <div class="log-form">
+    <v-form ref="form" lazy-validation>
       <h1>Sign in</h1>
-      <label>Email</label>
-      <input required v-model="email" type="email" placeholder="Name" />
-      <label>Password</label>
-      <input
+      <v-text-field
+        v-model="email"
+        :rules="emailRules"
+        label="E-mail"
         required
+      ></v-text-field>
+      <v-text-field
         v-model="password"
         type="password"
-        placeholder="Password"
-      />
-      <hr />
-      <button type="submit">Login</button>
-    </form>
+        :rules="passwordRules"
+        label="Password"
+        required
+      ></v-text-field>
+      <p class="create-acc-text">
+        Don't have an account?<a style="padding: 10px" href="/register"
+          >Create Account</a
+        >
+      </p>
+      <v-btn color="success" class="mr-4" @click="login">
+        Login
+      </v-btn>
+    </v-form>
   </div>
 </template>
 <script>
 export default {
-  data() {
-    return {
-      email: "",
-      password: "",
-    };
-  },
+  data: () => ({
+    email: "",
+    emailRules: [
+      (v) => !!v || "E-mail is required",
+      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+    ],
+    password: "",
+    passwordRules: [(v) => !!v || "Password is required"],
+  }),
   methods: {
     login: function() {
-      let email = this.email;
-      let password = this.password;
-      this.$store
-        .dispatch("login", { email, password })
-        .then(() => this.$router.push("/"))
-        .catch((err) => console.log(err));
+      if (this.$refs.form.validate()) {
+        let email = this.email;
+        let password = this.password;
+        this.$store
+          .dispatch("login", { email, password })
+          .then(() => this.$router.push("/secure"))
+          .catch((err) => console.log(err));
+      }
     },
   },
 };
 </script>
+<style scoped>
+.log-form {
+  text-align: center;
+  margin: auto;
+}
+.create-acc-text {
+  margin: 20px;
+}
+</style>
